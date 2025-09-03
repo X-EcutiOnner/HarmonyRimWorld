@@ -12,7 +12,7 @@ static class VersionControl_DrawInfoInCorner_Patch
 {
 	public static void Postfix()
 	{
-		var str = $"Harmony v{HarmonyMain.loadedHarmonyVersion}";
+		var str = $"Harmony v{Main.loadedHarmonyVersion}";
 		Text.Font = GameFont.Small;
 		GUI.color = Color.white.ToTransparent(0.5f);
 		var size = Text.CalcSize(str);
@@ -21,15 +21,15 @@ static class VersionControl_DrawInfoInCorner_Patch
 		GUI.color = Color.white;
 		if (Mouse.IsOver(rect))
 		{
-			var tipSignal = new TipSignal($"Harmony Mod v{HarmonyMain.modVersion}");
+			var tipSignal = new TipSignal($"Harmony Mod v{Main.modVersion}");
 			TooltipHandler.TipRegion(rect, tipSignal);
 			Widgets.DrawHighlight(rect);
 		}
 
-		if (HarmonyMain.loadingError != null)
+		if (Main.loadingError != null)
 		{
-			Find.WindowStack.Add(new Dialog_MessageBox(HarmonyMain.loadingError, "OK"));
-			HarmonyMain.loadingError = null;
+			Find.WindowStack.Add(new Dialog_MessageBox(Main.loadingError, "OK"));
+			Main.loadingError = null;
 		}
 	}
 }
@@ -39,7 +39,7 @@ static class Environment_GetStackTrace_Patch
 {
 	public static bool Prefix(Exception e, bool needFileInfo, ref string __result)
 	{
-		if (HarmonyMain.noStacktraceEnhancing)
+		if (Settings.noStacktraceEnhancing)
 			return true;
 
 		try

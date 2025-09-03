@@ -91,7 +91,7 @@ static class ExceptionTools
 
 		hash = ComputeStableHash(stacktrace);
 
-		if (HarmonyMain.noStacktraceCaching)
+		if (Settings.noStacktraceCaching)
 			return stacktrace;
 
 		var hashRef = $"[Ref {hash:X}]";

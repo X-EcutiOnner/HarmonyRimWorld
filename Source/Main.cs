@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using LudeonTK;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -9,10 +8,9 @@ using Verse;
 namespace HarmonyMod;
 
 [StaticConstructorOnStartup]
-public class HarmonyMain(ModContentPack content) : Mod(content)
+public class Main : Mod
 {
-	[TweakValue("Harmony")] public static bool noStacktraceCaching;
-	[TweakValue("Harmony")] public static bool noStacktraceEnhancing;
+	public static Settings settings;
 
 	public static Version loadedHarmonyVersion = default;
 	public static string loadingError;
@@ -22,7 +20,7 @@ public class HarmonyMain(ModContentPack content) : Mod(content)
 		 typeof(AssemblyFileVersionAttribute), false)
 	).Version;
 
-	static HarmonyMain()
+	static Main()
 	{
 		string[] HarmonyNames = ["0Harmony", "Lib.Harmony", "HarmonyLib"];
 		var loaded = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => HarmonyNames.Contains(a.GetName().Name));
@@ -70,6 +68,8 @@ public class HarmonyMain(ModContentPack content) : Mod(content)
 			Log.Error($"Lib.Harmony could not be initialized: {ex.Message}");
 		}
 	}
+
+	public Main(ModContentPack content) : base(content) => settings = GetSettings<Settings>();
 
 	static string SafeLocation(Assembly a)
 	{
